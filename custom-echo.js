@@ -1,6 +1,6 @@
 
-var http = require("http")
-  , ws = require(__dirname + '/src');
+var http = require("http");
+var ws = require(__dirname + '/src');
 
 
 /*-----------------------------------------------
@@ -14,27 +14,30 @@ var server = ws.createServer({
 	debug: true
 }, httpServer);
 
-server.addListener("listening", function(){	});
+server.addListener("listening", function(){	
+	/* do something */
+});
 
 // Handle WebSocket Requests
 server.addListener("connection", function(conn){
- 
-  connected++;
-  server.send(conn.id, connected+'');
-  conn.broadcast(connected+'');
+	
+	connected++;
+	server.send(conn.id, connected+'');
+	conn.broadcast(connected+'');
   
-  conn.addListener("message", function(message){
+  	// 接收到訊息
+  	conn.addListener("message", function(message){
 
-  	conn.broadcast(message);
-  });
+		// 直接將訊息廣播出去
+  		conn.broadcast(message);
+  	});
 });
 
 server.addListener("close", function(conn){
 
-  connected--;
-  conn.broadcast(connected+'');
+	connected--;
+	conn.broadcast(connected+'');
 });
-
 
 
 // 請修改成你的 port 及 ip
